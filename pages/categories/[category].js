@@ -27,7 +27,7 @@ function Category() {
     } else {
       setItemsToMap([]);
     }
-  }, [route]);
+  }, [route, category]);
 
   return (
     <div className={styles.categories_container}>

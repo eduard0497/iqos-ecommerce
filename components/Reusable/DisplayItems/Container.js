@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "../../../styles/Reusable/DisplayItems/Container.module.css";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 function Container({ itemsToDisplay }) {
   const router = useRouter();
@@ -47,9 +48,12 @@ function Container({ itemsToDisplay }) {
             key={item.productID}
             className={styles.display_items_container_item}
           >
-            <a href="/">
-              <img src={item.images[0]} alt="iqos" />
-            </a>
+            <Link href="/">
+              <a>
+                <img src={item.images[0]} alt="iqos" />
+              </a>
+            </Link>
+
             <div>
               <p>{item.category}</p>
               <div className={styles.display_items_container_item_title}>
