@@ -3,6 +3,7 @@ export const iqosDevices = [
     productID: "IQM16012",
     title: "IQOS 2.4 Plus – Soft Black",
     price: "$104.99",
+    priceStripeAPI: "price_1LLi6xAx9n28G3QXP3RF8kKK",
     category: "IQOS Devices",
     detailOne:
       "The IQOS 2.4 Plus uses HeatControl Technology to deliver the true taste of real tobacco.",
@@ -34,6 +35,7 @@ export const iqosDevices = [
     productID: "IQM16013",
     title: "IQOS 2.4 Plus – White",
     price: "$104.99",
+    priceStripeAPI: "price_1LLi7lAx9n28G3QXlAa1LpMR",
     category: "IQOS Devices",
     detailOne:
       "The IQOS 2.4 Plus uses HeatControl Technology to deliver the true taste of real tobacco.",
@@ -64,6 +66,7 @@ export const iqosDevices = [
     productID: "IQD17003",
     title: "IQOS 3 DUO – Brilliant Gold",
     price: "$132.99",
+    priceStripeAPI: "price_1LLi8AAx9n28G3QX8FW0kB7u",
     category: "IQOS Devices",
     detailOne:
       "The IQOS 3 DUO is the most powerful IQOS with which you can enjoy two HEETS without waiting. The IQOS 3 DUO Kit includes the pocket charger, holder and charging and cleaning accessories.",

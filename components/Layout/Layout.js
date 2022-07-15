@@ -4,34 +4,34 @@ import styles from "../../styles/Layout.module.css";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import CouponBanner from "../Reusable/CouponBanner";
+import "@stripe/stripe-js";
 
 function Layout({ children }) {
-  const [showSideFilter, setShowSideFilter] = useState(false);
+  let router = useRouter();
 
-  let route = useRouter();
+  const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
-    if (route.pathname == "/iqos-devices") {
-      setShowSideFilter(true);
+    if (router.pathname == "/success") {
+      setShowSuccess(true);
     } else {
-      setShowSideFilter(false);
+      setShowSuccess(false);
     }
-  }, [route]);
+  }, [router]);
 
   return (
-    <div>
-      <Navbar />
-      <CouponBanner />
-      {showSideFilter ? (
-        <div className={styles.searchFilter_and_children_container}>
-          <div>Search Filter</div>
-          <div className={styles.children_general_container}>{children}</div>
-        </div>
+    <>
+      {showSuccess ? (
+        <>{children}</>
       ) : (
-        <div className={styles.children_general_container}>{children}</div>
+        <div>
+          <Navbar />
+          <CouponBanner />
+          <div className={styles.children_general_container}>{children}</div>
+          <Footer />
+        </div>
       )}
-      <Footer />
-    </div>
+    </>
   );
 }
 

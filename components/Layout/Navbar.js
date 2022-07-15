@@ -7,6 +7,7 @@ import { homepageLogo } from "../Resources/logos_images";
 import { iqosDevices } from "../../products/iqosDevices";
 import { heets } from "../../products/heets";
 import { accessories } from "../../products/accessories";
+import { loadStripe } from "@stripe/stripe-js";
 
 function Navbar() {
   return (
@@ -125,6 +126,8 @@ const Cart = ({ showCart, setShowCart }) => {
   let allItems = iqosDevices.concat(heets, accessories);
   const [itemsToDisplayInCart, setItemsToDisplayInCart] = useState([]);
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     let cartItemsFromLocalStorage = JSON.parse(
       localStorage.getItem("cartItems")
@@ -138,6 +141,8 @@ const Cart = ({ showCart, setShowCart }) => {
           if (cartItemsFromLocalStorage[i].productID == allItems[j].productID) {
             cartItemsFromLocalStorage[i].title = allItems[j].title;
             cartItemsFromLocalStorage[i].image = allItems[j].images[0];
+            cartItemsFromLocalStorage[i].priceStripeAPI =
+              allItems[j].priceStripeAPI;
           }
         }
       }
@@ -152,6 +157,27 @@ const Cart = ({ showCart, setShowCart }) => {
     localStorage.setItem("cartItems", JSON.stringify(cleanedCart));
     setItemsToDisplayInCart(cleanedCart);
     router.reload(window.location.pathname);
+  };
+
+  const checkout = async () => {
+    setLoading(true);
+    let stripePromise = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_API);
+    let itemsToCheckout = [];
+    itemsToDisplayInCart.forEach((item) => {
+      itemsToCheckout.push({
+        price: item.priceStripeAPI,
+        quantity: item.quantity,
+      });
+    });
+    let checkoutOptions = {
+      lineItems: itemsToCheckout,
+      mode: "payment",
+      successUrl: `${process.env.NEXT_PUBLIC_WEBSITE_LINK}/success`,
+      cancelUrl: `${process.env.NEXT_PUBLIC_WEBSITE_LINK}/`,
+    };
+    const { error } = await stripePromise.redirectToCheckout(checkoutOptions);
+    if (error) alert("Error happened at the checkout");
+    setLoading(false);
   };
 
   return (
@@ -186,7 +212,13 @@ const Cart = ({ showCart, setShowCart }) => {
                   </div>
                 );
               })}
-              <button className={styles.checkout_button}>Checkout</button>
+              {loading ? (
+                <button className={styles.checkout_button}>Loading...</button>
+              ) : (
+                <button className={styles.checkout_button} onClick={checkout}>
+                  Checkout
+                </button>
+              )}
             </>
           ) : (
             <h2>Cart is empty...</h2>

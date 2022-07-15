@@ -1,0 +1,33 @@
+.success_container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  text-align: center;
+  background: #232323;
+}
+
+.success_container_inner {
+  padding: 20px;
+  background: #dc9814;
+  border-radius: 5px;
+  color: #232323;
+}
+.success_container_inner > button {
+  padding: 5px 10px;
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: bolder;
+  background: #dc9814;
+  border-radius: 5px;
+  border-color: #232323;
+  color: #232323;
+  cursor: pointer;
+  transition: all 0.1s ease-in;
+}
+.success_container_inner > button:hover {
+  background: #232323;
+  color: #dc9814;
+}
