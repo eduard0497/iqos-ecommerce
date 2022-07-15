@@ -161,7 +161,9 @@ const Cart = ({ showCart, setShowCart }) => {
 
   const checkout = async () => {
     setLoading(true);
-    let stripePromise = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_API);
+    let stripePromise = await loadStripe(
+      `${process.env.NEXT_PUBLIC_STRIPE_API}`
+    );
     let itemsToCheckout = [];
     itemsToDisplayInCart.forEach((item) => {
       itemsToCheckout.push({
