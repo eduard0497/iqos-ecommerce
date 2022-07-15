@@ -160,6 +160,7 @@ const Cart = ({ showCart, setShowCart }) => {
   };
 
   const checkout = async () => {
+    console.log(process.env.NEXT_PUBLIC_STRIPE_API);
     setLoading(true);
     let stripePromise = await loadStripe(
       `${process.env.NEXT_PUBLIC_STRIPE_API}`
