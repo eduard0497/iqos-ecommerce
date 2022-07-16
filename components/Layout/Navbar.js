@@ -150,6 +150,27 @@ const Cart = ({ showCart, setShowCart }) => {
     }
   }, []);
 
+  const changeQuantity = async (id, action) => {
+    let updatedItems = itemsToDisplayInCart;
+    let foundTheItemIndex = updatedItems.findIndex(
+      (item) => item.productID == id
+    );
+    let itemsToDisplayAfter;
+    if (action == "decrement") {
+      updatedItems[foundTheItemIndex].quantity =
+        updatedItems[foundTheItemIndex].quantity - 1;
+      localStorage.setItem("cartItems", JSON.stringify(updatedItems));
+      itemsToDisplayAfter = JSON.parse(localStorage.getItem("cartItems"));
+      setItemsToDisplayInCart(itemsToDisplayAfter);
+    } else if (action == "increment") {
+      updatedItems[foundTheItemIndex].quantity =
+        updatedItems[foundTheItemIndex].quantity + 1;
+      localStorage.setItem("cartItems", JSON.stringify(updatedItems));
+      itemsToDisplayAfter = JSON.parse(localStorage.getItem("cartItems"));
+      setItemsToDisplayInCart(itemsToDisplayAfter);
+    }
+  };
+
   const deleteFromCart = (e) => {
     let cleanedCart = itemsToDisplayInCart.filter(
       (item) => item.productID != e.target.id
@@ -160,7 +181,6 @@ const Cart = ({ showCart, setShowCart }) => {
   };
 
   const checkout = async () => {
-    console.log(process.env.NEXT_PUBLIC_STRIPE_API);
     setLoading(true);
     let stripePromise = await loadStripe(
       `${process.env.NEXT_PUBLIC_STRIPE_API}`
@@ -202,9 +222,29 @@ const Cart = ({ showCart, setShowCart }) => {
                     <div className={styles.cart_container_row_image}>
                       <img src={item.image} alt="iqos" />
                     </div>
-                    <div>${item.price}</div>
-                    <div>{item.quantity}</div>
-                    <div>${item.quantity * item.price}</div>
+                    <div>${parseFloat(item.price).toFixed(2)}</div>
+                    <div className={styles.cart_container_row_quantity}>
+                      <button
+                        id={item.productID}
+                        onClick={(e) =>
+                          changeQuantity(e.target.id, "decrement")
+                        }
+                      >
+                        -
+                      </button>
+                      {item.quantity}
+                      <button
+                        id={item.productID}
+                        onClick={(e) =>
+                          changeQuantity(e.target.id, "increment")
+                        }
+                      >
+                        +
+                      </button>
+                    </div>
+                    <div>
+                      ${parseFloat(item.quantity * item.price).toFixed(2)}
+                    </div>
                     <button
                       className={styles.cart_container_row_delete}
                       id={item.productID}

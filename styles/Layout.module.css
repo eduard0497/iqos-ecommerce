@@ -189,6 +189,29 @@
   height: 100%;
 }
 
+.cart_container_row_quantity {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+}
+.cart_container_row_quantity > button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  background: none;
+  border: none;
+  outline: none;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.1s ease-in;
+}
+.cart_container_row_quantity > button:hover {
+  background: #3bb54a;
+  border-radius: 3px;
+}
+
 .cart_container_row_delete {
   padding: 7px;
   border-radius: 5px;
