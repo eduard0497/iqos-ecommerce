@@ -8,6 +8,7 @@ import { iqosDevices } from "../../products/iqosDevices";
 import { heets } from "../../products/heets";
 import { accessories } from "../../products/accessories";
 import { loadStripe } from "@stripe/stripe-js";
+import { updateCart } from "../../generalFunctions/functions";
 
 function Navbar() {
   return (
@@ -87,6 +88,10 @@ const CartIcon = () => {
   const [cartItemsPrice, setCartItemsPrice] = useState();
 
   useEffect(() => {
+    updateCartIcon();
+  }, []);
+
+  const updateCartIcon = () => {
     let cartItemsFromLocalStorage = JSON.parse(
       localStorage.getItem("cartItems")
     );
@@ -103,7 +108,7 @@ const CartIcon = () => {
       setCartItemsPrice(parseFloat(totalPrice).toFixed(2));
       setCartItemsAmount(totalQuantity);
     }
-  }, []);
+  };
 
   return (
     <div className={styles.navbar_desktop_lower_cart_context}>
@@ -116,12 +121,16 @@ const CartIcon = () => {
       >
         {cartItemsAmount}
       </span>
-      <Cart showCart={showCart} setShowCart={setShowCart} />
+      <Cart
+        showCart={showCart}
+        setShowCart={setShowCart}
+        updateCartIcon={updateCartIcon}
+      />
     </div>
   );
 };
 
-const Cart = ({ showCart, setShowCart }) => {
+const Cart = ({ showCart, setShowCart, updateCartIcon }) => {
   const router = useRouter();
   let allItems = iqosDevices.concat(heets, accessories);
   const [itemsToDisplayInCart, setItemsToDisplayInCart] = useState([]);
@@ -159,25 +168,24 @@ const Cart = ({ showCart, setShowCart }) => {
     if (action == "decrement") {
       updatedItems[foundTheItemIndex].quantity =
         updatedItems[foundTheItemIndex].quantity - 1;
-      localStorage.setItem("cartItems", JSON.stringify(updatedItems));
-      itemsToDisplayAfter = JSON.parse(localStorage.getItem("cartItems"));
+      itemsToDisplayAfter = updateCart(updatedItems);
       setItemsToDisplayInCart(itemsToDisplayAfter);
     } else if (action == "increment") {
       updatedItems[foundTheItemIndex].quantity =
         updatedItems[foundTheItemIndex].quantity + 1;
-      localStorage.setItem("cartItems", JSON.stringify(updatedItems));
-      itemsToDisplayAfter = JSON.parse(localStorage.getItem("cartItems"));
+      itemsToDisplayAfter = updateCart(updatedItems);
       setItemsToDisplayInCart(itemsToDisplayAfter);
     }
+    updateCartIcon();
   };
 
   const deleteFromCart = (e) => {
     let cleanedCart = itemsToDisplayInCart.filter(
       (item) => item.productID != e.target.id
     );
-    localStorage.setItem("cartItems", JSON.stringify(cleanedCart));
-    setItemsToDisplayInCart(cleanedCart);
-    router.reload(window.location.pathname);
+    let itemsToDisplayAfter = updateCart(cleanedCart);
+    setItemsToDisplayInCart(itemsToDisplayAfter);
+    updateCartIcon();
   };
 
   const checkout = async () => {
