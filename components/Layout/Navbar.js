@@ -14,7 +14,7 @@ function Navbar() {
   return (
     <div>
       <NavbarDesktop />
-      {/* <NavbarMobile /> */}
+      <NavbarMobile />
     </div>
   );
 }
@@ -76,14 +76,17 @@ const NavbarDesktop = () => {
 const NavbarMobile = () => {
   return (
     <div className={styles.navbar_mobile_container}>
-      <h1>navbar mobile goes here</h1>
+      <div>Burger</div>
+      <div>
+        <img src={homepageLogo} width="146.66" height="22" />
+      </div>
+      <CartIcon />
     </div>
   );
 };
 
 const CartIcon = () => {
   const [showCart, setShowCart] = useState(false);
-
   const [cartItemsAmount, setCartItemsAmount] = useState();
   const [cartItemsPrice, setCartItemsPrice] = useState();
 
@@ -131,7 +134,6 @@ const CartIcon = () => {
 };
 
 const Cart = ({ showCart, setShowCart, updateCartIcon }) => {
-  const router = useRouter();
   let allItems = iqosDevices.concat(heets, accessories);
   const [itemsToDisplayInCart, setItemsToDisplayInCart] = useState([]);
 
@@ -279,3 +281,6 @@ const Cart = ({ showCart, setShowCart, updateCartIcon }) => {
     </>
   );
 };
+
+
+

@@ -173,3 +173,22 @@
   text-transform: none;
   color: #323232;
 }
+
+@media only screen and (max-width: 768px) {
+  .banner {
+    flex-direction: column;
+    gap: 40px;
+  }
+  .grayed_links_container {
+    flex-direction: column;
+  }
+
+  .whatisit_container_columns {
+    flex-direction: column;
+  }
+
+  .whatisit_container_columns_item {
+    max-width: 100%;
+    padding: 10px;
+  }
+}

@@ -4,6 +4,7 @@
   grid-template-columns: repeat(3, 1fr);
   grid-column-gap: 15px;
   grid-row-gap: 10px;
+  transition: all 0.1s ease-in;
 }
 
 .display_items_container_item {
@@ -60,4 +61,10 @@
   text-transform: none;
   color: #2c2d33;
   margin: 2px 0px;
+}
+
+@media only screen and (max-width: 900px) {
+  .display_items_container {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
